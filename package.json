@@ -1,0 +1,25 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nmp app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SrGiovanni/Employee-Tracker.git"
+  },
+  "author": "John",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SrGiovanni/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/SrGiovanni/Employee-Tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.2",
+    "mysql2": "^2.3.3"
+  }
+}
