@@ -32,6 +32,10 @@ const addRole = async (roleParams) => {
 };
 
 /** addEmployee */
+const addEmployee = async (empParams) => {
+  const sql = 'INSERT INTO  employee (first_name, last_name, role_id, manager_id) VALUES ?';
+  return await db.query(sql, empParams);
+}
 
 /** updateEmployeeRole params: eID */
 
@@ -43,4 +47,10 @@ const addRole = async (roleParams) => {
 /** getBudgetByDepartment */
 
 
-module.exports = {};
+module.exports = {getAllDepartments, 
+                    getAllRoles, 
+                    getAllEmployees,
+                    addDepartment,
+                    addRole,
+                    addEmployee
+                };

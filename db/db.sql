@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS emtracker;
-CREATE DATABASE emtracker;
+DROP DATABASE IF EXISTS empTracker;
+CREATE DATABASE empTracker;
 USE empTracker;
