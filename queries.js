@@ -2,15 +2,15 @@ const db = require('./db/connection')
 
 
 /** getDepartments */
-const getAllDepartments = async () => {
+const getAllDepartments = () => {
   const sql = 'SELECT * FROM department;'
-  return await db.query(sql);
+  return db.query(sql);
 };
 
 /** getRoles */
 const getAllRoles = async () => {
   const sql = 'SELECT * FROM role';
-  return await db.query(sql);
+  return db.query(sql);
 };
 
 /** getEmployees */

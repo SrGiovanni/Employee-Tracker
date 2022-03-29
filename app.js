@@ -15,7 +15,7 @@ const {getAllDepartments,
  *              view employees by department; delete departments, roles, and employees; 
  *              view the total utilized budget of a department—in other words, the combined salaries of all employees in that department.
  */
-const selectAction = async () => {
+ const selectAction = async () => {
     const actions = ['View Departments', 'View Roles', 'View Employees', 'Quit!!'];
     try {
         const action = await prompt([
@@ -26,31 +26,39 @@ const selectAction = async () => {
                     choices: actions
                 }
             ]);
-        switch (action) {
+        switch (action.choice) {
             case 'View Departments':
-                const deps = await getAllDepartments();
-                console.table(deps);
+                console.log('Viewing All Departments:')
+                // const deps = await getAllDepartments();
+                // console.table(deps);
                 return selectAction();
                 break;
-          
+            case 'View Roles':
+                // console.table( await getAllRoles() );
+				return selectAction();
+                break;
+            case 'View Employees':
+                // console.table( await getAllEmployees() );
+				return selectAction();
+                break;
             default:
                 return console.log('Goody bye!')
                 break;
-        }
+        };
     } catch (error) {
+        console.log('Catching an Error:')
         console.log(error);
     };
+    console.log('outside of try:catch block')
 };
 
 /**
  * initialize app and pass execution to the action selection function
  */
-const init = async () => {
-  console.log(`
-  ===============================
-  Welcome to the Employee Tracker
-  _______________________________`);
-  return await selectAction();
-};
 //initialize app
-init();
+console.log(`
+===============================
+Welcome to the Employee Tracker
+_______________________________`);
+ selectAction();
+console.log('\n after select action')
