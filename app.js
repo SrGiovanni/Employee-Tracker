@@ -15,9 +15,10 @@ const {getAllDepartments,
  *              view employees by department; delete departments, roles, and employees; 
  *              view the total utilized budget of a department—in other words, the combined salaries of all employees in that department.
  */
- const selectAction = async () => {
+const selectAction = async () => {
     const actions = ['View Departments', 'View Roles', 'View Employees', 'Quit!!'];
     try {
+        console.log('before prompt')
         const action = await prompt([
                 {
                     message: 'What would you like to do?',
@@ -26,6 +27,7 @@ const {getAllDepartments,
                     choices: actions
                 }
             ]);
+        console.log('after prompt')
         switch (action.choice) {
             case 'View Departments':
                 console.log('Viewing All Departments:')
@@ -41,16 +43,22 @@ const {getAllDepartments,
                 // console.table( await getAllEmployees() );
 				return selectAction();
                 break;
-            default:
+
+            case 'Quit!!':
                 return console.log('Goody bye!')
                 break;
+            default:
+                break;
         };
+        console.log('skipped switch statement')
     } catch (error) {
         console.log('Catching an Error:')
         console.log(error);
     };
     console.log('outside of try:catch block')
-};
+    };
+    //await selectAction();
+
 
 /**
  * initialize app and pass execution to the action selection function
@@ -60,5 +68,5 @@ console.log(`
 ===============================
 Welcome to the Employee Tracker
 _______________________________`);
- selectAction();
-console.log('\n after select action')
+selectAction();
+//console.log('\n after selectAction')
