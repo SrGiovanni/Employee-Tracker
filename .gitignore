@@ -104,6 +104,3 @@ dist
 .tern-port
 
 .DS_Store
-
-# User Specific
-mySQL_server_config.js
