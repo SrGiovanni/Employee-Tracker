@@ -46,7 +46,7 @@ Licensed under the [MIT](https://mit-license.org/) license.
 
 ## Contributing
 
-You can submit pull requests for expanded functionality, bug fixes, optimisation, and correcting typographical errors. Please be respectful to eachother when you meet, and strive to leave the community and code in a better state than you found it.
+You can submit pull requests for expanded functionality, bug fixes, optimization, and correcting typographical errors. Please be respectful to each other when you meet, and strive to leave the community and code in a better state than you found it.
 
 ## Tests
 
