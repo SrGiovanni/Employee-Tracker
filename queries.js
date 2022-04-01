@@ -38,6 +38,10 @@ const addEmployee = async (empParams) => {
 }
 
 /** updateEmployeeRole params: eID */
+const updateEmployeeRole = async ( empID, newRoleID) => {
+  const sql = 'UPDATE employee SET role_id = ? WHERE id = ?';
+  return await db.query(sql, [newRoleID, empID]);  
+}
 
 //BONUS
 /** updateEmployeeManager */
@@ -52,5 +56,6 @@ module.exports = {getAllDepartments,
                     getAllEmployees,
                     addDepartment,
                     addRole,
-                    addEmployee
+                    addEmployee,
+                    updateEmployeeRole
                 };
