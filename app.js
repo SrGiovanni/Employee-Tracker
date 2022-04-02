@@ -32,20 +32,33 @@ const selectAction = async () => {
             ]);
         switch (action.choice) {
             case 'View Departments':{
+                // TODO: change all to match format here
                 console.log('Viewing All Departments:')
                 let [deps] = await getAllDepartments();
-                console.table(deps);
-                return await selectAction();
+                if(deps){
+                    console.table(deps);}
+                else{
+                    console.log("No departments found.");
+                }
+                selectAction();
                 break;
             }case 'View Roles':{
                 let [roles] = await getAllRoles()
-                console.table( roles );
-				return await selectAction();
+                if(roles) {
+                    console.table( roles );
+                } else {
+                    console.log("No roles were found.")
+                }
+				selectAction();
                 break;
             }case 'View Employees':{
                 let [employees] = await getAllEmployees()
-                console.table( employees );
-				return await selectAction();
+                if(employees){
+                    console.table( employees );
+                }else {
+                    console.log("No employees were found.");
+                }
+				selectAction();
                 break;
             }case 'Add Department':{
                 const newDepartment = await prompt([
@@ -64,126 +77,141 @@ const selectAction = async () => {
                 ]);
                 await addDepartment(newDepartment.department);
                 console.log("New Department created!");
-                return await selectAction();
+                selectAction();
                 break;
             }case 'Add Role':{
-                let  [departments] = await getAllDepartments();
-                const newRole = await prompt([
-                    {
-                        name: 'title',
-                        message: "Please enter a role Title:",
-                        type: 'input',
-                        validate: (answer) => {
-                            if(answer){
-                                return true;
-                            } else{
-                                return 'Please enter a role title!';
+                try{
+                    let  [departments] = await getAllDepartments();
+                    const newRole = await prompt([
+                        {
+                            name: 'title',
+                            message: "Please enter a role Title:",
+                            type: 'input',
+                            validate: (answer) => {
+                                if(answer){
+                                    return true;
+                                } else{
+                                    return 'Please enter a role title!';
+                                }
                             }
-                        }
 
-                    },
-                    {
-                        name: 'salary',
-                        message: 'Please enter the role Salary:',
-                        type: 'number',
-                        validate: (answer) => {
-                            if(answer && typeof answer ==='number'){
-                                return true;
-                            } else{
-                                return 'Please enter a number for Salary';
+                        },
+                        {
+                            name: 'salary',
+                            message: 'Please enter the role Salary:',
+                            type: 'number',
+                            validate: (answer) => {
+                                if(answer && typeof answer ==='number'){
+                                    return true;
+                                } else{
+                                    return 'Please enter a number for Salary';
+                                }
                             }
+                        },
+                        {
+                            name: 'department',
+                            message: 'Please select a department the role belongs to:',
+                            type: 'list',
+                            choices: departments.map((elem) => {
+                            return {name: elem.name, value: elem.id};
+                            })
                         }
-                    },
-                    {
-                        name: 'department',
-                        message: 'Please select a department the role belongs to:',
-                        type: 'list',
-                        choices: departments.map((elem) => {
-                          return {name: elem.name, value: elem.id};
-                        })
-                    }
-                ]);
-                await addRole([newRole.title, newRole.salary, newRole.department]);
-                console.log('New Role Created!');
-                return await selectAction();
+                    ]);
+                    await addRole([newRole.title, newRole.salary, newRole.department]);
+                    console.log('New Role Created!');
+                } catch (error) {
+                    console.log("There was an error creating a department;")
+                    console.log(error);
+
+                }
+                selectAction();
                 break;
-            }case 'Add Employee':
-                {let [roles] = await getAllRoles();
-                const newEmployee = await prompt([
-                    {
-                        name: 'fname',
-                        message: 'Please enter fist name:',
-                        type: 'input',
-                        validate: (answer) => {
-                            if(answer){
-                                return true;
-                            } else{
-                                return 'Please enter a name!';
+            }case 'Add Employee':{
+                try{
+                    let [roles] = await getAllRoles();
+                    const newEmployee = await prompt([
+                        {
+                            name: 'fname',
+                            message: 'Please enter fist name:',
+                            type: 'input',
+                            validate: (answer) => {
+                                if(answer){
+                                    return true;
+                                } else{
+                                    return 'Please enter a name!';
+                                }
                             }
-                        }
-                    },
-                    {
-                        name: 'lname',
-                        message: 'Please enter last name:',
-                        type: 'input',
-                        validate: (answer) => {
-                            if(answer){
-                                return true;
-                            } else{
-                                return 'Please enter a name!';
+                        },
+                        {
+                            name: 'lname',
+                            message: 'Please enter last name:',
+                            type: 'input',
+                            validate: (answer) => {
+                                if(answer){
+                                    return true;
+                                } else{
+                                    return 'Please enter a name!';
+                                }
                             }
+                        },
+                        {
+                            name: 'role',
+                            message: 'Please select a role',
+                            type: 'list',
+                            choices: roles.map((elem) => {
+                            return {name: elem.title, value: elem.id}
+                            })
+                        },
+                        {
+                            name: 'manager',
+                            message: 'Please select a manager by ID (leave blank for no manager)',
+                            type: 'number'
                         }
-                    },
-                    {
-                        name: 'role',
-                        message: 'Please select a role',
-                        type: 'list',
-                        choices: roles.map((elem) => {
-                          return {name: elem.title, value: elem.id}
-                        })
-                    },
-                    {
-                        name: 'manager',
-                        message: 'Please select a manager by ID (leave blank for no manager)',
-                        type: 'number'
-                    }
-                ]) 
-                await addEmployee([newEmployee.fname, newEmployee.lname, newEmployee.role, newEmployee.manager]);
-                console.log('New Employee Added!');
-                return await selectAction();
+                    ]) 
+                    await addEmployee([newEmployee.fname, newEmployee.lname, newEmployee.role, newEmployee.manager]);
+                    console.log('New Employee Added!');
+                } catch (error){
+                    console.log("There was an error adding an employee.")
+                    console.log(error)
+                }
+                selectAction();
                 break;
             }case 'Update Employee Role':{
-                const employees = await getAllEmployees();
-                const roles = await getAllRoles();
-                const update = await prompt([
-                    {
-                        name: 'employee',
-                        message: 'Select an employee to update:',
-                        type: 'list',
-                        choices: employees.map((elem) => {
-                            return { name: `${elem.first_name} ${elem.last_name}`, value: elem.id };
-                        })
-                    },
-                    {
-                        name: 'newRole',
-                        message: 'Select new role:',
-                        type: 'list',
-                        choices: roles.map((elem) => { return {name: elem.title, value: elem.id} })
-                    }
-                ]);
-                await updateEmployeeRole(update.employee, update.newRole);
-                return await selectAction();
+                try{
+                    const [employees] = await getAllEmployees();
+                    const [roles] = await getAllRoles();
+                    const update = await prompt([
+                        {
+                            name: 'employee',
+                            message: 'Select an employee to update:',
+                            type: 'list',
+                            choices: employees.map((elem) => {
+                                return { name: `${elem.first_name} ${elem.last_name}`, value: elem.id };
+                            })
+                        },
+                        {
+                            name: 'newRole',
+                            message: 'Select new role:',
+                            type: 'list',
+                            choices: roles.map((elem) => { return {name: elem.title, value: elem.id} })
+                        }
+                    ]);
+                    await updateEmployeeRole(update.employee, update.newRole);
+                    console.log("Role updated.");
+                } catch (e){
+                    console.log("There was an error updating an employee.")
+                    console.log(e)
+                }
+                selectAction();
                 break;
             }case 'Quit!!':{
                 console.log('Goody bye!!');
-                
-                return undefined;
+                return process.exit();
                 break;
             }default:{
                 console.log('invalid action prompt')
                 break;}
             };
-            return undefined;
     } catch (error) {
         console.log('Caught an Error:')
         return console.log(error);
@@ -200,4 +228,4 @@ console.log(`
 Welcome to the Employee Tracker
 _______________________________`);
 selectAction();
-console.log('\n after selectAction')
+// console.log('\n after selectAction')

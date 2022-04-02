@@ -9,13 +9,18 @@ const getAllDepartments = () => {
 
 /** getRoles */
 const getAllRoles = async () => {
-  const sql = 'SELECT * FROM role';
+  const sql = 'SELECT r.title, r.id, d.name, r.salary FROM role r '+
+              'LEFT JOIN department d ON r.department_id = d.id;';
   return db.query(sql);
 };
 
 /** getEmployees */
 const getAllEmployees = async () => {
-    const sql = 'SELECT * FROM employee';
+    const sql = `SELECT e.id, e.first_name, e.last_name, r.title, d.name, r.salary, 
+                      (SELECT concat(m.first_name, ' ', m.last_name) FROM employee m WHERE e.manager_id = m.id) AS manager
+                  FROM employee e
+                  LEFT JOIN role r ON e.role_id = r.id
+                  LEFT JOIN department d ON r.department_id = d.id; `;
     return await db.query(sql);
 };
 
