@@ -6,7 +6,8 @@ const {getAllDepartments,
     addDepartment,
     addRole,
     addEmployee,
-    updateEmployeeRole} = require('./queries');
+    updateEmployeeRole,
+    getBudgetByDepartment} = require('./queries');
 
 /**
  * Use inquirer to ask what the user wants to do
@@ -19,7 +20,7 @@ const {getAllDepartments,
 const selectAction = async () => {
     const actions = ['View Departments', 'View Roles', 'View Employees',
                      'Add Department', 'Add Role', 'Add Employee',
-                     'Update Employee Role',
+                     'Update Employee Role', 'Get budget by Department',
                       'Quit!!'];
     try {
         const action = await prompt([
@@ -75,8 +76,13 @@ const selectAction = async () => {
                             }
                     }
                 ]);
-                await addDepartment(newDepartment.department);
-                console.log("New Department created!");
+                try {
+                    await addDepartment(newDepartment.department);
+                    console.log("New Department created!");
+                } catch (error) {
+                    console.log("There was an error adding a department")
+                    console.log(error) 
+                }
                 selectAction();
                 break;
             }case 'Add Role':{
@@ -203,6 +209,25 @@ const selectAction = async () => {
                     console.log(e)
                 }
                 selectAction();
+                break;
+            }case 'Get budget by Department':{
+                try {
+                    const [departments] = await getAllDepartments();
+                    const query = await prompt([
+                        {
+                            name: 'department',
+                            message: 'Please select a department:',
+                            type: 'list',
+                            choices: departments.map((elem) => {return {name: elem.name, value:elem.id} })
+                        }
+                    ]);
+                    const [budget] = await getBudgetByDepartment(query.department)
+                    console.table(budget)
+                    selectAction()
+                } catch (error) {
+                    console.log("There was an error getting the budget.")
+                    console.log(e)
+                }
                 break;
             }case 'Quit!!':{
                 console.log('Goody bye!!');

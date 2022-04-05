@@ -38,7 +38,7 @@ const addRole = async (roleParams) => {
 
 /** addEmployee */
 const addEmployee = async (empParams) => {
-  const sql = 'INSERT INTO  employee (first_name, last_name, role_id, manager_id) VALUES *?, ?, ?, ?)';
+  const sql = 'INSERT INTO  employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
   return await db.query(sql, empParams);
 }
 
@@ -54,6 +54,14 @@ const updateEmployeeRole = async ( empID, newRoleID) => {
 /** getEmployeesByDepartment */
 // DELETE methods for employees, roles, and departments
 /** getBudgetByDepartment */
+const getBudgetByDepartment = async (id) => {
+  const sql = `SELECT SUM(salary) AS budget
+  FROM employee e
+  LEFT JOIN role r ON e.role_id = r.id
+  LEFT JOIN department d ON r.department_id = d.id
+  WHERE d.id = ?; `;
+  return await db.query(sql, id);
+}
 
 
 module.exports = {getAllDepartments, 
@@ -62,5 +70,6 @@ module.exports = {getAllDepartments,
                     addDepartment,
                     addRole,
                     addEmployee,
-                    updateEmployeeRole
+                    updateEmployeeRole,
+                    getBudgetByDepartment
                 };

@@ -35,7 +35,14 @@ Modules used in this app:
 
 ## Usage
 
-Run the app by running `npm start`
+Run the app by running `npm start`  
+Use the arrow keys and enter key to select an option.  
+Select 'Quit' to exit the program.
+
+<video class="tab" controls>Your browser does not support the &lt;video&gt; tag.
+
+  <source src="./assets/video/demo.mp4"/>
+</video>
 
 ## License
 
@@ -54,5 +61,4 @@ No tests are currently included in this app.
 
 ## Questions
 
-If you have any questions, my <a href="https://github.com/SrGiovanni">GitHub profile</a> is linked,
-or you can email me at <a href = "mailto: example@farsight.c">example@farsight.c</a>.
+If you have any questions, my <a href="https://github.com/SrGiovanni">GitHub profile</a> is linked.
