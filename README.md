@@ -39,10 +39,8 @@ Run the app by running `npm start`
 Use the arrow keys and enter key to select an option.  
 Select 'Quit' to exit the program.
 
-<video class="tab" controls>Your browser does not support the &lt;video&gt; tag.
 
-  <source src="./assets/video/demo.mp4"/>
-</video>
+[video walkthrough](./assets/video/demo.mp4)
 
 ## License
 
